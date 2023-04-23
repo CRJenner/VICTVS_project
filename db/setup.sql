@@ -1,0 +1,5 @@
+
+DROP DATABASE IF EXISTS VICTVS_exam_data;
+
+CREATE DATABASE VICTVS_exam_data;
+

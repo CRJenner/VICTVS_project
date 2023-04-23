@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "npm run set-up db && PGDATABASE=victvs_exam_data jest",
+    "test": "npm run setup-db && PGDATABASE=victvs_exam_data jest",
     "setup-db": "psql -f ./db/setup.sql",
     "seed": "PGDATABASE=victvs_exam_data node db/seeds/run-seed.js",
     "dev": "nodemon server"
@@ -21,6 +21,9 @@
   },
   "devDependencies": {
     "jest": "^29.5.0",
-    "nodemon": "^2.0.22"
+    "jest-extended": "^3.2.4",
+    "jest-sorted": "^1.0.14",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   }
 }

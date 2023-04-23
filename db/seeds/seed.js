@@ -4,7 +4,6 @@ const format = require("pg-format")
 const moment = require('moment');
 
 function seed(){
-    console.log(candidates)
 	return db
     .query(`DROP TABLE IF EXISTS candidates;`)
     .then(()=>{

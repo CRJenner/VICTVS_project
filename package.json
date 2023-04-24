@@ -4,13 +4,13 @@
   "description": "",
   "main": "listen.js",
   "scripts": {
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
     "test": "npm run setup-db && PGDATABASE=victvs_exam_data jest ",
     "setup-db": "psql -f ./db/setup.sql",
     "seed": "PGDATABASE=victvs_exam_data node db/seeds/run-seed.js",
-    "dev": "nodemon server",
-    "start": "node listen.js",
-    "seed-prod": "NODE_ENV=production npm run seed"
-  },
+    "dev": "nodemon server"
+     },
   "keywords": [],
   "author": "",
   "license": "ISC",

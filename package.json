@@ -2,12 +2,14 @@
   "name": "be",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "listen.js",
   "scripts": {
-    "test": "npm run setup-db && PGDATABASE=victvs_exam_data jest",
+    "test": "npm run setup-db && PGDATABASE=victvs_exam_data jest ",
     "setup-db": "psql -f ./db/setup.sql",
     "seed": "PGDATABASE=victvs_exam_data node db/seeds/run-seed.js",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production npm run seed"
   },
   "keywords": [],
   "author": "",

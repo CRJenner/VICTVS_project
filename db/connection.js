@@ -1,11 +1,19 @@
 const { Pool } = require("pg");
-const PGDATABASE = process.env.PGDATABASE
+const ENV = process.env.NODE_ENV || 'development';
 
 
-if (!PGDATABASE){
-  throw new Error('no database set')
+if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
+  throw new Error('PGDATABASE or DATABASE_URL not set');
 }
+const config =
+  ENV === 'production'
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        max: 2,
+      }
+    : {};
 
-const connection = new Pool
+
+const connection = new Pool(config)
 
 module.exports = connection;

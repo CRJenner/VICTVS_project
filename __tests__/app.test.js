@@ -27,6 +27,7 @@ describe("app", () => {
                         longitude: expect.any(String),
                     })
                 })
+                expect(candidateData).toHaveLength(20)
             })
         })
         test('404: Error issued for invalid endpoint ', () => {

@@ -1,5 +1,4 @@
 const { Pool } = require("pg");
-const PGDATABASE = process.env.PGDATABASE
 const ENV = process.env.NODE_ENV || 'development';
 
 
@@ -21,7 +20,7 @@ const config =
 
 const connection = new Pool(config)
 
-module.exports = new Pool(config);
+module.exports = connection;
 
 
 

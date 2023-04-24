@@ -1,4 +1,4 @@
-
+const candidates =
   [
     {
       "id": 0,
@@ -221,3 +221,5 @@
       "Longitude": -0.2664025
     }
   ]
+
+  module.exports = {candidates}

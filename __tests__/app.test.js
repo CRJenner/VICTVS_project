@@ -3,6 +3,7 @@ const data = require("../db/data")
 const request = require("supertest");
 const app = require("../app")
 const db = require("../db/connection")
+const moment = require('moment')
 
 beforeEach(() => seed(data));
 afterAll(() => db.end());
@@ -78,6 +79,21 @@ describe("app", () => {
                   })
                 });
           });
+          test("200: collect a 200 status which filters for date", () => {
+            return request(app)
+              .get("/api")
+              .query({sort_by: "date", order: "DESC", date: "05/05/2023 14:30:00"})
+              .expect(200)
+              .then(({ body }) => {
+                const { candidateData } = body;
+                expect(candidateData.length).toBe(18);
+                candidateData.forEach((candidate) => {
+                  expect(candidate.date).toBe("2023-05-05T13:30:00.000Z");
+                });
+              });
+          });
+         
+          
     })
 })
 

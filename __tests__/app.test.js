@@ -38,6 +38,16 @@ describe("app", () => {
                 expect(body.msg).toBe("Invalid pathway")
             })
         });
+        test("200: collect a 200 status which accepts order query for date ?order=asc", () => {
+            return request(app)
+              .get("/api")
+              .query({sort_by: "date", order: "DESC"})
+              .expect(200)
+              .then(({ body }) => {
+                const { candidateData } = body;
+                expect(candidateData).toBeSorted( {key: "date", descending: true });
+              });
+          });
     
     })
 })

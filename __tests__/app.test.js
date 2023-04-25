@@ -38,7 +38,11 @@ describe("app", () => {
                 expect(body.msg).toBe("Invalid pathway")
             })
         });
-        test("200: collect a 200 status which accepts order query for date ?order=asc", () => {
+       
+    
+    })
+    describe("queries-> ordering and filtering", () => {
+        test("200: collect a 200 status which accepts order query for date ?order=desc", () => {
             return request(app)
               .get("/api")
               .query({sort_by: "date", order: "DESC"})
@@ -48,7 +52,32 @@ describe("app", () => {
                 expect(candidateData).toBeSorted( {key: "date", descending: true });
               });
           });
-    
+          test("200: collect a 200 status which filters for location", () => {
+            return request(app)
+              .get("/api?locationname=London")
+              .query({sort_by: "date", order: "DESC"})
+              .expect(200)
+              .then(({ body }) => {
+                const { candidateData } = body;
+                expect(candidateData.length).toBe(11)
+                candidateData.forEach((candidate) => {
+                    expect(candidate.locationname).toBe('London');
+                  })
+                });
+          });
+          test("200: collect a 200 status which filters for candidate", () => {
+            return request(app)
+              .get("/api?candidatename=Wilmers")
+              .query({sort_by: "date", order: "DESC"})
+              .expect(200)
+              .then(({ body }) => {
+                const { candidateData } = body;
+                expect(candidateData.length).toBe(14)
+                candidateData.forEach((candidate) => {
+                    expect(candidate.candidatename).toBe('Wilmers');
+                  })
+                });
+          });
     })
 })
 

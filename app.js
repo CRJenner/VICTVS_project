@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const {getCandidateData} = require("./Controllers/candidateDataController")
+const cors = require('cors');
+
+app.use(cors());
 
 app.get("/api", getCandidateData)
 

@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-exports.fetchCandidateData = (sort_by = "date", order = "DESC", locationname, candidatename, date) => {
+exports.fetchCandidateData = (sort_by = "date", order = "ASC", locationname, candidatename, date) => {
     
     const paramQuery = [];
     let initialQuery = `SELECT * FROM candidates`;

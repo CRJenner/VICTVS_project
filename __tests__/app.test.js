@@ -95,6 +95,27 @@ describe("app", () => {
          
           
     })
+    describe("GET /api/:id", () => {
+      test('200: GET - an array of objects specific to the id', () => {
+        return request(app)
+        .get("/api/2")
+        .expect(200)
+        .then(({body}) => {
+          console.log(body)
+          expect(body.id_info).toMatchObject({
+          id: 2,
+          title: 'VICTVS2',
+          description: 'VICTVS Exam 2',
+          candidateid: 1,
+          candidatename: 'Donnelly',
+          date: '2023-05-05T13:30:00.000Z',
+          locationname: 'Sydney',
+          latitude: '-33.86882',
+          longitude: '151.20929'
+        })
+        })
+      })
+    })
 })
 
 

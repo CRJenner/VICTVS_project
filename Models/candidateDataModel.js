@@ -24,7 +24,11 @@ exports.fetchCandidateData = (sort_by = "date", order = "ASC", locationname, can
         .then(({ rows: candidates }) => candidates);
 }
 
-
+exports.fetchCandidateDataById = (id) => {
+return db.query(`
+SELECT * FROM candidates WHERE candidates.id = $1`, [id])
+.then(({ rows: candidates }) => { return candidates[0] })
+}
 
 
 

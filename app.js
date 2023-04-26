@@ -1,11 +1,12 @@
 const express = require('express')
 const app = express()
-const {getCandidateData} = require("./Controllers/candidateDataController")
+const {getCandidateData, getCandidateDataById} = require("./Controllers/candidateDataController")
 const cors = require('cors');
 
 app.use(cors());
 
 app.get("/api", getCandidateData)
+app.get("/api/:id", getCandidateDataById)
 
 app.all("/*", (request, response, next) => {
     response.status(404).send({ msg: "Invalid pathway"})

@@ -1,6 +1,18 @@
 const db = require("../db/connection");
 
 exports.fetchCandidateData = (sort_by = "date", order = "ASC", locationname, candidatename, date) => {
+    if(!["date"].includes(sort_by)){
+        return Promise.reject({
+            status: 400,
+            msg:  "Invalid sort query, try again."
+          })
+    }
+    if(!["DESC", "ASC"].includes(order)){
+        return Promise.reject({
+            status: 400,
+            msg: "Invalid order query, try again"
+        })
+    }
     
     const paramQuery = [];
     let initialQuery = `SELECT * FROM candidates`;
@@ -21,7 +33,15 @@ exports.fetchCandidateData = (sort_by = "date", order = "ASC", locationname, can
     initialQuery += ` ORDER BY ${sort_by} ${order};`;
     
     return db.query(initialQuery, paramQuery)
-        .then(({ rows: candidates }) => candidates);
+        .then(({ rows: candidates }) => {
+            if(candidates.length === 0){
+                return Promise.reject({
+                    status: 404,
+                    msg: "No information with these filters",
+                  });
+            }
+            return candidates
+        });
 }
 
 exports.fetchCandidateDataById = (id) => {
@@ -35,7 +55,6 @@ exports.fetchCandidateDataById = (id) => {
 return db.query(`
 SELECT * FROM candidates WHERE candidates.id = $1`, [id])
 .then(({ rows: candidates }) => { 
-    console.log(candidates)
         if(candidates.length === 0){
         return Promise.reject({
             status: 404,

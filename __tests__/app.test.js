@@ -92,6 +92,34 @@ describe("app", () => {
                 });
               });
           });
+          test("400: Responds with a 400 for invalid sort_by query", () => {
+            return request(app)
+              .get("/api")
+              .query({sort_by: "inValidSortBy", order: "ASC"})
+              .expect(400)
+              .then(({body}) => {
+                expect(body.msg).toBe("Invalid sort query, try again.");
+              });
+          });
+          test("400: should return status: 400 for invalid order query", () => {
+            return request(app)
+              .get("/api")
+              .expect(400)
+              .query({sort_by: "date", order: "invalidOrderQuery"})
+              .then(({ body }) => {
+                expect(body.msg).toBe("Invalid order query, try again");
+              });
+          });
+          test("404: filtering has nothing in the db", () => {
+            return request(app)
+            .get("/api")
+            .expect(404)
+            .query({sort_by: "date", order: "ASC", location: "London", date: "05/05/2023 14:30:00", candidatename: "Bob"})
+            .then(({ body }) => {
+              expect(body.msg).toBe("No information with these filters");
+            });
+          })
+        })
          
           
     })
@@ -101,7 +129,6 @@ describe("app", () => {
         .get("/api/2")
         .expect(200)
         .then(({body}) => {
-          console.log(body)
           expect(body.id_info).toMatchObject({
           id: 2,
           title: 'VICTVS2',
@@ -135,7 +162,7 @@ describe("app", () => {
           });
       });
     });
-})
+
 
 
 

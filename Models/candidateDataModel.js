@@ -25,9 +25,24 @@ exports.fetchCandidateData = (sort_by = "date", order = "ASC", locationname, can
 }
 
 exports.fetchCandidateDataById = (id) => {
+    if (isNaN(id)) {
+        return Promise.reject({
+          status: 400,
+          msg: "Invalid id, please try with a number",
+        });
+      }
+    
 return db.query(`
 SELECT * FROM candidates WHERE candidates.id = $1`, [id])
-.then(({ rows: candidates }) => { return candidates[0] })
+.then(({ rows: candidates }) => { 
+    console.log(candidates)
+        if(candidates.length === 0){
+        return Promise.reject({
+            status: 404,
+            msg: "ID not found, try another number.",
+          });
+    }
+    return candidates[0] })
 }
 
 

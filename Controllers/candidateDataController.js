@@ -15,7 +15,6 @@ exports.getCandidateData = (request, response, next) => {
 exports.getCandidateDataById = (request, response, next) => {
     const {id} = request.params;
     fetchCandidateDataById(id).then((id_info) => {
-        console.log(id_info)
         response.status(200).send({id_info})
     })
     .catch((err) => {

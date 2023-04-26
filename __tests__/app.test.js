@@ -115,7 +115,26 @@ describe("app", () => {
         })
         })
       })
-    })
+      
+      test("400: responds with a 400 for an invalid id", () => {
+        return request(app)
+        .get("/api/invalid_id")
+        .expect(400)
+        .then(({body}) => {
+          const {msg} = body
+          expect(msg).toBe("Invalid id, please try with a number")
+        })
+      })
+      test("404: responds with a 404 if it is a valid id but is not in the db", () => {
+        return request(app)
+          .get("/api/99999")
+          .expect(404)
+          .then((res) => {
+            const { msg } = res.body;
+            expect(msg).toBe("ID not found, try another number.");
+          });
+      });
+    });
 })
 
 

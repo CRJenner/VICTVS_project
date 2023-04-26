@@ -92,10 +92,77 @@ describe("app", () => {
                 });
               });
           });
+          test("400: Responds with a 400 for invalid sort_by query", () => {
+            return request(app)
+              .get("/api")
+              .query({sort_by: "inValidSortBy", order: "ASC"})
+              .expect(400)
+              .then(({body}) => {
+                expect(body.msg).toBe("Invalid sort query, try again.");
+              });
+          });
+          test("400: should return status: 400 for invalid order query", () => {
+            return request(app)
+              .get("/api")
+              .expect(400)
+              .query({sort_by: "date", order: "invalidOrderQuery"})
+              .then(({ body }) => {
+                expect(body.msg).toBe("Invalid order query, try again");
+              });
+          });
+          test("404: filtering has nothing in the db", () => {
+            return request(app)
+            .get("/api")
+            .expect(404)
+            .query({sort_by: "date", order: "ASC", location: "London", date: "05/05/2023 14:30:00", candidatename: "Bob"})
+            .then(({ body }) => {
+              expect(body.msg).toBe("No information with these filters");
+            });
+          })
+        })
          
           
     })
-})
+    describe("GET /api/:id", () => {
+      test('200: GET - an array of objects specific to the id', () => {
+        return request(app)
+        .get("/api/2")
+        .expect(200)
+        .then(({body}) => {
+          expect(body.id_info).toMatchObject({
+          id: 2,
+          title: 'VICTVS2',
+          description: 'VICTVS Exam 2',
+          candidateid: 1,
+          candidatename: 'Donnelly',
+          date: '2023-05-05T13:30:00.000Z',
+          locationname: 'Sydney',
+          latitude: '-33.86882',
+          longitude: '151.20929'
+        })
+        })
+      })
+      
+      test("400: responds with a 400 for an invalid id", () => {
+        return request(app)
+        .get("/api/invalid_id")
+        .expect(400)
+        .then(({body}) => {
+          const {msg} = body
+          expect(msg).toBe("Invalid id, please try with a number")
+        })
+      })
+      test("404: responds with a 404 if it is a valid id but is not in the db", () => {
+        return request(app)
+          .get("/api/99999")
+          .expect(404)
+          .then((res) => {
+            const { msg } = res.body;
+            expect(msg).toBe("ID not found, try another number.");
+          });
+      });
+    });
+
 
 
 
